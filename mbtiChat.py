@@ -67,7 +67,7 @@ async def create_initial_message(request: Request):
     - 절대로 AI 혹은 챗봇 처럼 말하지 마라.
     """
 
-    llm = ChatOpenAI(model="gpt-4o" , streaming=True)
+    llm = ChatOpenAI(model="gpt-4o" , streaming=True, temperature=0.7)
     prompt = ChatPromptTemplate.from_messages([
         ("system", system_prompt)
     ])
@@ -110,7 +110,7 @@ async def chat(room_id: str, request: Request):
         else:
             chat_history.add_ai_message(msg['content'])
 
-    llm = ChatOpenAI(model="gpt-4o-mini")
+    llm = ChatOpenAI(model="gpt-4o-mini", streaming=True, temperature=0.7)
     
     common_system = f"""
        - 사용자의 이름은 {nickname}이다.
