@@ -44,6 +44,7 @@ async def create_initial_message(request: Request):
 
     system_prompt = f"""
      너는 지금 막 생성된 챗봇이야. 너의 MBTI는 {mbti}야.
+     먼저 인사는 하지말고,
     너의 MBTI 성격에 맞춰 이름이 {nickName}인 사용자에게 닉네임을 부르며 MBTI가 무엇인지만 자연스럽게 자기소개를 해줘.
     - 너의 이름은 {botname}이다.
     - 너의 성별은 {gender}이다.
@@ -67,7 +68,7 @@ async def create_initial_message(request: Request):
     - 절대로 AI 혹은 챗봇 처럼 말하지 마라.
     """
 
-    llm = ChatOpenAI(model="gpt-4o" , streaming=True)
+    llm = ChatOpenAI(model="gpt-4o" , streaming=True, temperature=0.7)
     prompt = ChatPromptTemplate.from_messages([
         ("system", system_prompt)
     ])
@@ -110,7 +111,7 @@ async def chat(room_id: str, request: Request):
         else:
             chat_history.add_ai_message(msg['content'])
 
-    llm = ChatOpenAI(model="gpt-4o-mini")
+    llm = ChatOpenAI(model="gpt-4o-mini", streaming=True, temperature=0.7)
     
     common_system = f"""
        - 사용자의 이름은 {nickname}이다.
